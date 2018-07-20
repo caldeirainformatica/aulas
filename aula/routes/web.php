@@ -12,8 +12,11 @@
 */
 Route::group(['prefix' => 'aluno'], function (){
     Route::get('/list', 'AlunoController@getAlunos')->name('aluno.list');
-    Route::get('/form', 'AlunoController@form')->name('aluno.form');
-    Route::post('/salvar', 'AlunoController@salvarAluno')->name('aluno.salvarAluno');
+    Route::get('/form/{id?}', 'AlunoController@form')->name('aluno.form');
+    Route::get('/deletar/{id}', 'AlunoController@deletarAluno')
+        ->name('aluno.deletar');
+    Route::post('/salvar', 'AlunoController@salvarAluno')
+        ->name('aluno.salvarAluno');
 });
 
 

@@ -7,24 +7,37 @@ use Illuminate\Http\Request;
 
 class AlunoController extends Controller
 {
-    public function getAlunos(){
+    public function getAlunos()
+    {
         $alunos = Aluno::all();
         return view('aluno/list', compact('alunos'));
     }
 
-    public function salvarAluno(Request $request){
-        return Aluno::create($request->input());
+    public function salvarAluno(Request $request)
+    {
+        if ($request->id_aluno) {
+            Aluno::find($request->id_aluno)
+                ->update($request->input());
+        } else {
+            Aluno::create($request->input());
+        }
+
+        return redirect()->route('aluno.list');
     }
 
-    public function deletarAluno(){
+    public function deletarAluno($id_aluno)
+    {
 
+        Aluno::find($id_aluno)->delete();
+        return redirect()->route('aluno.list');
     }
 
-    public function alterarAluno(){
+    public function form($id_aluno = null)
+    {
+        $aluno = new Aluno();
+        if ($id_aluno)
+            $aluno = Aluno::find($id_aluno);
 
-    }
-
-    public function form(){
-        return view('aluno/form');
+        return view('aluno/form', compact('aluno'));
     }
 }
